@@ -9,7 +9,7 @@ The increased awareness of climate change and its urgency have spurred efforts m
 Riding on this wave, there is a growing market for *green* products such as reusable/glass straws, shopping bags, clothes made from recycled waste, energy efficient appliances etc.([onyalife](https://www.onyalife.com/eco-friendly-products/)) Such products appeal to consumers who subscribe to the *green* cause, and wish to reduce their impact on the environment ad having less waste.
 
 ### Problem Statement
-You are an analyst at a social media company which uses targeted advertising on its platform. You have been tasked to create a classification model to identify users who are likely to been keen on *green* products based on their text-based interactions on the platform.
+To assist targeted advertising on social media platforms, this project seeks to create a classification model to identify users who are likely to been keen on *green* products based on their text-based interactions on such platform.
 
 **Strategy<br/>**
 To scrape posts from subreddit "ZeroWaste" which represents *green* user group and scrape posts from subreddit *Frugal* which will represent the control group. "ZeroWaste" is a subreddit where people discuss how to reduce environmental impact through green ideas and minimizing waste. Frugal is a subreddit where people discuss how to conserve time, money, resources.
@@ -37,11 +37,23 @@ Part 2: Analysis and Model Tuning
 **Exploratory Data Analysis**<br/>
 Top words in each of the subreddits included distinct words that were reflective of their underlying motivations. (e.g. "save money" and "time" in Frugal, "plastic" and "eco friendly" in ZeroWaste). If the posts contained distinctive words that are representative of its subreddit it should be correctly classified. Of course, words such as "waste" were popular in both subreddits.
 
-**Modeling and Tuning**<br/>
-An iterative search process using GridSearch led to a decently performing model with the RandomForest algorithm. An accuracy of 89% and sensitivity of 90% was achieved, which meant that we are able to classify ZeroWaste users apart from relatively similar users rather well. The effects of removing tokens from spam entries cannot be seen at this point, but could be salient when the model is deployed on real posts. Likewise the removal of tokens which are common and without logical affliation with either subreddits did not yield conclusive improvements.
+#### Summary of Models with the "best hyperparameter combination" with different stopword sets
 
+|              |                        | **Train**    |          |          | **Test**     |          |          |
+|:-------------|:-----------------------|--------------|----------|----------|--------------|----------|----------|
+|              |                        | **Accuracy** | **Sens** | **Spec** | **Accuracy** | **Sens** | **Spec** |
+| Model 2b     | MNB original Stopwords | 0.924        | 0.944    | 0.909    | 0.884        | 0.918    | 0.860    |
+| Model 2b_sw1 | MNB Stopwords set1     | 0.924        | 0.941    | 0.910    | 0.883        | 0.916    | 0.859    |
+| Model 2b_sw2 | MNB Stopwords set2     | 0.924        | 0.942    | 0.909    | 0.882        | 0.912    | 0.860    |
+| Model 3b     | RF original Stopwords  | 0.948        | 0.954    | 0.943    | 0.894        | 0.902    | 0.888    |
+| Model 3b_sw1 | RF Stopwords set1      | 0.948        | 0.953    | 0.943    | 0.894        | 0.903    | 0.886    |
+| Model 3b_sw2 | RF Stopwords set2      | 0.947        | 0.952    | 0.942    | 0.896        | 0.905    | 0.889    |
+
+
+**Modeling and Tuning**<br/>
+An iterative search process using GridSearch led to a decently performing model with the RandomForest algorithm. An accuracy of 89% and sensitivity of 90% was achieved, which meant that we are able to classify ZeroWaste users apart from relatively similar users rather well. The effects of removing tokens from spam entries cannot be seen at this point, but could be salient when the model is deployed on real posts. Likewise, the removal of tokens which are common and without logical affliation with either subreddits did not yield conclusive improvements.
 
 ### Future Directions
-The algorithm trained performs relatively well, and will be able to identify ZeroWaste users to a high accuracy. We will reccomend for the RandomForest model with TfdifVectorizer to be deployed for use.
+The algorithm trained performs relatively well, and will be able to identify ZeroWaste users to a high accuracy. The RandomForest model with TfdifVectorizer to be deployed for use.
 
 Based on our analysis, we feel that thee stop words list can be further increased, and strategies such as stemming can be explored. Future analysts can also consider combining the model's predicitions with other user behaviours on the social media platform to improve prediction.
